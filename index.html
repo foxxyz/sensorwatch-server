@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family: arial;
+            }
+        </style>
+
+        <script>
+            var host = location.origin.replace(/^http/, 'ws')
+            var ws = new WebSocket(host)
+            ws.onmessage = function (event) {
+                var li = document.createElement('li')
+                li.innerHTML = JSON.parse(event.data)
+                document.querySelector('#messages').appendChild(li)
+            };
+        </script>
+    </head>
+    <body>
+        <h1>Socket Test</h1>
+        <ul id="messages"></ul>
+    </body>
+</html>
