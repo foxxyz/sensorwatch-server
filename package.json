@@ -1,0 +1,14 @@
+{
+  "name": "sensorwatch-web-monitor",
+  "version": "0.0.1",
+  "description": "Web Monitor App for sensorwatch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ivo Janssen <hello@ivo.la>",
+  "license": "MIT",
+  "dependencies": {
+    "mongodb": "^2.2.5"
+  }
+}
