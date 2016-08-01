@@ -50,7 +50,7 @@ app.use(bodyParser.json())
 app.post('/update/:secret/', (req, res) => {
     // Make sure secret token matches, otherwise ignore
     if (req.params.secret !== process.env['SENSORWATCH_SECRET']) {
-        error404(req, res)
+        return error404(req, res)
     }
 
     // Get current timestamp
