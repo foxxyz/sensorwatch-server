@@ -74,6 +74,10 @@ app.post('/update/:secret/', (req, res) => {
                 values: {[minute]: {[second]: parseFloat(req.body.value)}}
             })
         })
+
+    // Broadcast via websockets
+    wss.broadcast(JSON.stringify(req.body))
+
     res.status(201).send('success')
 })
 
@@ -86,17 +90,18 @@ function error404(req, res, next) {
 // Set up websocket server
 var wss = new WebSocketServer({server: server})
 wss.on("connection", function(ws) {
-    var id = setInterval(function() {
-        ws.send(JSON.stringify(new Date()), function() {  })
-    }, 1000)
-
     console.log("Websocket client connected")
 
     ws.on("close", function() {
         console.log("Connection closed")
-        clearInterval(id)
     })
 })
+
+wss.broadcast = function(data) {
+    wss.clients.forEach((client) => {
+        client.send(data)
+    })
+}
 
 // Start listening
 server.listen(port, () => {

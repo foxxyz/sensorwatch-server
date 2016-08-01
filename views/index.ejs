@@ -15,24 +15,30 @@
     </head>
     <body>
         <h1>SensorWatch Monitor</h1>
+        <p class="current">Current Temp: <span></span></p>
         <svg class="sensorchart" width="1000" height="600">
             <g class="x axis"></g>
             <g class="y axis"></g>
             <g class="plot"></g>
         </svg>
         <script>
+            const UNITS = {
+                'degreesCelsius': '°C',
+                'degreesFahrenheit': '°F'
+            }
+
             var results = <%= results %>
             var host = location.origin.replace(/^http/, 'ws')
             var ws = new WebSocket(host)
-            // ws.onmessage = function (event) {
-            //     var li = document.createElement('li')
-            //     li.innerHTML = JSON.parse(event.data)
-            //     document.querySelector('#messages').appendChild(li)
-            // }
+            ws.onmessage = function (event) {
+                var data = JSON.parse(event.data)
+                document.querySelector('.current span').innerHTML = parseFloat(data.value) + UNITS[data.unit]
+            }
+
             var svg = d3.select('.sensorchart')
             var width = 1200
             var height = 600
-            var margin = {top: 40, bottom: 50, left: 40, right: 40}
+            var margin = {top: 40, bottom: 50, left: 60, right: 40}
 
             var x = d3.scaleTime()
                 .domain([new Date(results[0][0]), new Date(results[results.length - 1][0])])
