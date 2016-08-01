@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
     var results = []
     cursor.each((err, doc) => {
         if (!doc) {
-            res.render('index', {results: results})
+            res.render('index', {results: JSON.stringify(results)})
             return
         }
         var docDate = new Date(doc.timestamp)
